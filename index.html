@@ -27,6 +27,47 @@ canvas{
     z-index:-5;
 }
 
+/* ===== LUNA BONITA CON TEXTURA ===== */
+#moon {
+    position: fixed;
+    top: 10%;
+    right: 10%;
+    width: 150px;
+    height: 150px;
+    background: radial-gradient(circle at 30% 30%, #ffffff, #e0e0e0, #b0b0b0);
+    border-radius: 50%;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), inset -20px -20px 0 rgba(200, 200, 200, 0.5);
+    z-index: -4;
+    animation: moonGlow 4s ease-in-out infinite alternate;
+}
+@keyframes moonGlow {
+    0% { box-shadow: 0 0 50px rgba(255, 255, 255, 0.8), inset -20px -20px 0 rgba(200, 200, 200, 0.5); }
+    100% { box-shadow: 0 0 80px rgba(255, 255, 255, 1), inset -20px -20px 0 rgba(220, 220, 220, 0.7); }
+}
+/* Textura de la luna: cráteres simulados */
+#moon::before {
+    content: '';
+    position: absolute;
+    top: 20%;
+    left: 30%;
+    width: 20px;
+    height: 20px;
+    background: rgba(150, 150, 150, 0.3);
+    border-radius: 50%;
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.5);
+}
+#moon::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 60%;
+    width: 15px;
+    height: 15px;
+    background: rgba(120, 120, 120, 0.4);
+    border-radius: 50%;
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.5);
+}
+
 /* ===== CONTADOR ===== */
 .countdown{
     font-size:32px;
@@ -57,6 +98,8 @@ canvas{
     animation:float 6s ease-in-out infinite;
     opacity:0;
     transition:opacity 3s ease;
+    cursor:pointer; /* Para indicar que es clickeable */
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); /* Brillo mágico */
 }
 
 @keyframes float{
@@ -134,7 +177,33 @@ canvas{
     border-radius:5px;
     box-shadow:0 0 10px rgba(0,255,0,0.4);
     z-index:0;
-    }
+}
+
+/* HOJAS EN LOS TALLOS */
+.stem::before {
+    content: '';
+    position: absolute;
+    bottom: 50px;
+    left: -10px;
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(45deg, #228b22, #32cd32);
+    border-radius: 50% 0 50% 0;
+    transform: rotate(-20deg);
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+}
+.stem::after {
+    content: '';
+    position: absolute;
+    bottom: 80px;
+    right: -10px;
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(45deg, #228b22, #32cd32);
+    border-radius: 0 50% 0 50%;
+    transform: rotate(20deg);
+    box-shadow: 0 0 5px rgba(0, 128, 0, 0.5);
+}
 
 /* ===== TEXTO ===== */
 .message{
@@ -144,6 +213,12 @@ canvas{
     text-shadow:0 0 35px red;
     min-height:40px;
     z-index:5;
+    opacity: 0;
+    animation: fadeIn 2s ease-in-out forwards; /* Fade suave */
+}
+@keyframes fadeIn {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
 
 .music-btn{
@@ -163,12 +238,121 @@ canvas{
     z-index:20;
 }
 .music-btn.show{display:block}
+
+/* ===== PÉTALOS CAYENDO ===== */
+#falling-petals {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+.petal-fall {
+    position: absolute;
+    width: 20px;
+    height: 30px;
+    background: radial-gradient(circle, #ff6b6b, #800000);
+    border-radius: 50% 50% 45% 45%;
+    opacity: 0.8;
+    animation: fall linear infinite;
+}
+@keyframes fall {
+    0% { transform: translateY(-100vh) rotate(0deg); }
+    100% { transform: translateY(100vh) rotate(360deg); }
+}
+
+/* ===== CHISPAS MÁGICAS ===== */
+#sparkles {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -2;
+}
+.sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: radial-gradient(circle, #ffffff, #ffff00, transparent);
+    border-radius: 50%;
+    animation: sparkleFloat 3s ease-in-out infinite;
+    box-shadow: 0 0 10px rgba(255, 255, 0, 0.8);
+}
+@keyframes sparkleFloat {
+    0%, 100% { transform: translateY(0) scale(1); opacity: 1; }
+    50% { transform: translateY(-20px) scale(1.2); opacity: 0.7; }
+}
+
+/* ===== CORAZONES EXPLOSIÓN ===== */
+@keyframes explode {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0.5); opacity: 0; }
+}
+
+/* ===== CARTA ANIMADA ===== */
+#letter {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: 400px;
+    height: 300px;
+    background: linear-gradient(135deg, #ffcccc, #ff9999);
+    border-radius: 10px;
+    box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 100;
+    opacity: 0;
+    transition: all 0.5s ease;
+    font-family: 'Courier New', monospace;
+    color: #330000;
+    text-align: center;
+    padding: 20px;
+    overflow-y: auto;
+}
+#letter.open {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+#letter .close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .bouquet { width: 100%; gap: 20px; }
+    .rose { width: 100px; height: 120px; }
+    .countdown, .message { font-size: 24px; }
+    .music-btn { bottom: 60px; padding: 10px 20px; font-size: 14px; }
+    #letter { width: 90%; height: 250px; font-size: 18px; }
+    #moon { width: 100px; height: 100px; }
+}
 </style>
 </head>
 
 <body>
 
 <canvas id="galaxy"></canvas>
+<div id="moon"></div> <!-- Luna bonita con textura -->
+<div id="falling-petals"></div> <!-- Para pétalos cayendo -->
+<div id="sparkles"></div> <!-- Chispas mágicas -->
 <div id="countdown" class="countdown">Calculando...</div>
 
 <div class="bouquet">
@@ -209,7 +393,17 @@ canvas{
 </div>
 
 <div id="message" class="message"></div>
-<button id="musicBtn" class="music-btn" onclick="playMusic()">▶ Reproducir música</button>
+<div id="letter">
+    <button class="close-btn" onclick="closeLetter()">×</button>
+    <p>Si vos me lo permitís, yo siempre voy a estar en estos 3 lugares:<br>
+    adelante tuyo para cuidarte<br>
+    atrás tuyo para animarte siempre que lo necesites<br>
+    y al lado tuyo para acompañarte en los momentos malos y los buenos<br>
+    para darte un empujoncito siempre que lo necesites, para ser tu consejero, tu compañero y todo lo que necesites incluso cuando el mundo se te venga abajo<br>
+    de esta manera te pregunto, ¿me dejarías acompañarte y poder llevar con orgullo el título de tu pareja?</p>
+</div>
+<button id="musicBtn" class="music-btn" onclick="toggleMusic()">▶ Reproducir música</button>
+<input id="volume" type="range" min="0" max="1" step="0.1" value="0.5" onchange="setVolume()" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); z-index:20; display:none;">
 <audio id="song" src="carencias.mp3"></audio>
 
 <script>
@@ -266,8 +460,86 @@ function animate(){
 }
 animate();
 
+/* ===== PÉTALOS CAYENDO ===== */
+function createFallingPetals() {
+    const container = document.getElementById('falling-petals');
+    setInterval(() => {
+        const petal = document.createElement('div');
+        petal.classList.add('petal-fall');
+        petal.style.left = Math.random() * 100 + '%';
+        petal.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Entre 5-10s
+        container.appendChild(petal);
+        setTimeout(() => petal.remove(), 10000); // Remover después de 10s
+    }, 500); // Nuevo pétalo cada 0.5s
+}
+createFallingPetals();
+
+/* ===== INTERACTIVIDAD: CLIC EN ROSAS ===== */
+document.querySelectorAll('.rose').forEach(rose => {
+    rose.addEventListener('click', () => {
+        openLetter();
+        // Cambia el color temporalmente
+        rose.style.filter = 'hue-rotate(45deg)';
+        setTimeout(() => rose.style.filter = '', 1000);
+    });
+});
+
+/* ===== CARTA ANIMADA ===== */
+function openLetter() {
+    const letter = document.getElementById('letter');
+    letter.classList.add('open');
+}
+
+function closeLetter() {
+    const letter = document.getElementById('letter');
+    letter.classList.remove('open');
+}
+
+/* ===== CORAZONES EXPLOSIÓN ===== */
+function generateHearts() {
+    const bouquet = document.querySelector('.bouquet');
+    const rect = bouquet.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+
+    for (let i = 0; i < 20; i++) { // Genera 20 corazones
+        const heart = document.createElement('div');
+        heart.textContent = '💖';
+        heart.style.position = 'absolute';
+        heart.style.fontSize = '24px';
+        heart.style.left = centerX + 'px';
+        heart.style.top = centerY + 'px';
+        heart.style.zIndex = '10';
+
+        // Calcular dirección aleatoria para la explosión
+        const angle = Math.random() * 2 * Math.PI; // Ángulo aleatorio
+        const distance = Math.random() * 300 + 100; // Distancia aleatoria (100-400px)
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        heart.style.setProperty('--tx', tx + 'px');
+        heart.style.setProperty('--ty', ty + 'px');
+        heart.style.animation = 'explode 3s ease-out forwards';
+
+        document.body.appendChild(heart);
+        setTimeout(() => heart.remove(), 3000);
+    }
+}
+
 /* MÚSICA */
-function playMusic(){document.getElementById("song").play();}
+const song = document.getElementById('song');
+function toggleMusic() {
+    if (song.paused) {
+        song.play();
+        document.getElementById('musicBtn').textContent = '⏸ Pausar música';
+    } else {
+        song.pause();
+        document.getElementById('musicBtn').textContent = '▶ Reproducir música';
+    }
+}
+function setVolume() {
+    song.volume = document.getElementById('volume').value;
+}
 
 /* TEXTO */
 function typeText(text){
@@ -285,13 +557,12 @@ if(i>=text.length)clearInterval(t);
 function unlock(){
     document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
     document.getElementById("musicBtn").classList.add("show");
+    document.getElementById("volume").style.display = "block"; // Mostrar control de volumen
 
-    typeText(`Si vos me lo permitís, yo siempre voy a estar en estos 3 lugares:
-                        adelante tuyo para cuidarte
-               atrás tuyo para animarte siempre que lo necesites    
-                  y al lado tuyo para acompañarte en los momentos malos y los buenos
-        para darte un empujoncito siempre que lo necesites, para ser tu consejero, tu compañero y todo lo que necesites incluso cuando el mundo se te venga abajo
-                    de esta manera te pregunto, ¿me dejarías acompañarte y poder llevar con orgullo el título de tu pareja?`);
+    typeText(`Toca una rosa para leer la carta.`);
+
+    generateHearts(); // Generar explosión de corazones al desbloquear
+    song.play().catch(() => {}); // Intentar auto-play
 
     localStorage.setItem("roseUnlocked","true");
 }
@@ -328,6 +599,7 @@ countdown.textContent=
 
 // Desbloquear el botón de música inmediatamente
 document.getElementById("musicBtn").classList.add("show");
+document.getElementById("volume").style.display = "block";
 
 const timer=setInterval(update,1000);
 update();
