@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramo Cósmico 💖</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    overflow:hidden;
+    background:black;
+    color:white;
+    font-family:Arial, sans-serif;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    height:100vh;
+}
+
+/* ===== GALAXIA ===== */
+canvas{
+    position:fixed;
+    inset:0;
+    z-index:-5;
+}
+
+/* ===== CONTADOR ===== */
+.countdown{
+    font-size:32px;
+    margin-bottom:20px;
+    text-shadow:0 0 25px crimson;
+    z-index:5;
+}
+
+/* ===== RAMO ===== */
+.bouquet{
+    position:relative;
+    width:600px;
+    height:350px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-end;
+    gap:60px;
+    z-index:2;
+}
+
+/* ===== ROSA ===== */
+.rose{
+    position:relative;
+    width:140px;
+    height:160px;
+    transform-style:preserve-3d;
+    transform:rotateX(20deg);
+    animation:float 6s ease-in-out infinite;
+    opacity:0;
+    transition:opacity 3s ease;
+}
+
+@keyframes float{
+    0%,100%{transform:rotateX(20deg) translateY(0)}
+    50%{transform:rotateX(20deg) translateY(-12px)}
+}
+
+.rose.unlocked{
+    opacity:1;
+}
+
+/* ===== PÉTALOS ===== */
+.petal{
+    position:absolute;
+    width:70px;
+    height:90px;
+    border-radius:50% 50% 45% 45%;
+    top:50%;
+    left:50%;
+    transform-origin:bottom center;
+    transform:translate(-50%,-100%) scale(0);
+    background:radial-gradient(circle at 40% 30%, #ff6b6b, #800000);
+    box-shadow:0 0 25px rgba(255,0,0,0.6);
+    transition:transform 2.5s ease;
+      z-index:2;
+}
+
+/* CAPA EXTERNA */
+.rose.unlocked .petal:nth-child(1){ transform:translate(-50%,-100%) rotate(0deg) translateY(-35px) scale(1);}
+.rose.unlocked .petal:nth-child(2){ transform:translate(-50%,-100%) rotate(60deg) translateY(-35px) scale(1);}
+.rose.unlocked .petal:nth-child(3){ transform:translate(-50%,-100%) rotate(120deg) translateY(-35px) scale(1);}
+.rose.unlocked .petal:nth-child(4){ transform:translate(-50%,-100%) rotate(180deg) translateY(-35px) scale(1);}
+.rose.unlocked .petal:nth-child(5){ transform:translate(-50%,-100%) rotate(240deg) translateY(-35px) scale(1);}
+.rose.unlocked .petal:nth-child(6){ transform:translate(-50%,-100%) rotate(300deg) translateY(-35px) scale(1);}
+
+/* CAPA INTERNA */
+.inner{
+    background:radial-gradient(circle at 40% 30%, #ff9999, #990000);
+    width:50px;
+    height:70px;
+    z-index:3;
+}
+
+.rose.unlocked .inner:nth-child(7){ transform:translate(-50%,-100%) rotate(30deg) translateY(-35px) scale(1);}
+.rose.unlocked .inner:nth-child(8){ transform:translate(-50%,-100%) rotate(150deg) translateY(-35px) scale(1);}
+.rose.unlocked .inner:nth-child(9){ transform:translate(-50%,-100%) rotate(270deg) translateY(-35px) scale(1);}
+
+/* CENTRO */
+.center{
+    position:absolute;
+    width:80px;
+    height:80px;
+    background:radial-gradient(circle,#660000,#330000);
+    border-radius:50%;
+    top:60%;
+    left:50%;
+    transform:translate(-50%,-70%) scale(0);
+    transition:transform 2.5s ease;
+    z-index:3;
+}
+
+.rose.unlocked .center{
+    transform:translate(-50%,-70%) scale(1);
+}
+
+/* TALLO */
+.stem{
+    position:absolute;
+    width:14px; /* grosor */
+    height:180px; /* largo */
+    background:linear-gradient(#2c8b57,#004d00);
+    bottom:-100px;
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:5px;
+    box-shadow:0 0 10px rgba(0,255,0,0.4);
+    z-index:0;
+    }
+
+/* ===== TEXTO ===== */
+.message{
+    margin-top:30px;
+    font-size:32px;
+    letter-spacing:2px;
+    text-shadow:0 0 35px red;
+    min-height:40px;
+    z-index:5;
+}
+
+.music-btn{
+    display:none;
+    position:fixed;   /* 👈 clave */
+    bottom:80px;      /* 👈 lo mueve abajo */
+    left:50%;
+    transform:translateX(-50%);
+    padding:12px 28px;
+    background:linear-gradient(45deg,#a00000,#ff4d4d);
+    border:none;
+    color:white;
+    border-radius:30px;
+    cursor:pointer;
+    box-shadow:0 0 25px crimson;
+    font-size:16px;
+    z-index:20;
+}
+.music-btn.show{display:block}
+</style>
+</head>
+
+<body>
+
+<canvas id="galaxy"></canvas>
+<div id="countdown" class="countdown">Calculando...</div>
+
+<div class="bouquet">
+
+    <div class="rose">
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+        <div class="petal"></div>
+
+        <div class="petal inner"></div>
+        <div class="petal inner"></div>
+        <div class="petal inner"></div>
+
+        <div class="center"></div>
+        <div class="stem"></div>
+    </div>
+
+    <div class="rose">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal inner"></div><div class="petal inner"></div><div class="petal inner"></div>
+        <div class="center"></div>
+        <div class="stem"></div>
+
+    </div>
+
+    <div class="rose">
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal"></div><div class="petal"></div><div class="petal"></div>
+        <div class="petal inner"></div><div class="petal inner"></div><div class="petal inner"></div>
+        <div class="center"></div>
+        <div class="stem"></div>
+    </div>
+
+</div>
+
+<div id="message" class="message"></div>
+<button id="musicBtn" class="music-btn" onclick="playMusic()">▶ Reproducir música</button>
+<audio id="song" src="carencias.mp3"></audio>
+
+<script>
+/* ===== GALAXIA EN MOVIMIENTO ===== */
+const canvas = document.getElementById("galaxy");
+const ctx = canvas.getContext("2d");
+
+let w, h;
+let stars = [];
+
+function resize(){
+    w = canvas.width = window.innerWidth;
+    h = canvas.height = window.innerHeight;
+    stars = [];
+
+    for(let i=0;i<900;i++){
+        stars.push({
+            x: Math.random()*w,
+            y: Math.random()*h,
+            size: Math.random()*2 + 0.5,
+            speed: Math.random()*0.5 + 0.1,
+            opacity: Math.random()
+        });
+    }
+}
+window.onresize = resize;
+resize();
+
+function animate(){
+    ctx.fillStyle = "rgba(5,0,20,0.6)";
+    ctx.fillRect(0,0,w,h);
+
+    for(let s of stars){
+
+        /* movimiento hacia abajo */
+        s.y += s.speed;
+
+        /* si sale de pantalla reaparece arriba */
+        if(s.y > h){
+            s.y = 0;
+            s.x = Math.random()*w;
+        }
+
+        /* pequeño efecto brillo */
+        s.opacity += (Math.random()-0.5)*0.05;
+        if(s.opacity < 0.2) s.opacity = 0.2;
+        if(s.opacity > 1) s.opacity = 1;
+
+        ctx.fillStyle = `rgba(255,255,255,${s.opacity})`;
+        ctx.fillRect(s.x, s.y, s.size, s.size);
+    }
+
+    requestAnimationFrame(animate);
+}
+animate();
+
+/* MÚSICA */
+function playMusic(){document.getElementById("song").play();}
+
+/* TEXTO */
+function typeText(text){
+const el=document.getElementById("message");
+el.textContent="";
+let i=0;
+const t=setInterval(()=>{
+el.textContent+=text[i];
+i++;
+if(i>=text.length)clearInterval(t);
+},100);
+}
+
+/* DESBLOQUEO */
+function unlock(){
+document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
+document.getElementById("musicBtn").classList.add("show");
+typeText("Te amo mucho ❤️");
+localStorage.setItem("roseUnlocked","true");
+}
+
+function unlock(){
+    document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
+    document.getElementById("musicBtn").classList.add("show");
+
+    typeText(`A veces la vida te cruza con alguien cuando menos lo esperás, y sin saber cómo, todo empieza a sentirse distinto. Con vos me pasó eso. Como si en medio de mis días normales hubiera aparecido una pausa linda, una calma que no sabía que necesitaba.
+
+No sé si es casualidad o algo más, pero cada vez que hablamos siento que hay una historia queriendo salir del lugar cómodo donde la tenemos. Como si esto no fuera solo coincidencia, sino una señal suave de que podríamos animarnos a un capítulo nuevo.
+
+Quizás estaría bueno regalarle un momento a eso que se sentimos`);
+
+    localStorage.setItem("roseUnlocked","true");
+}
+
+/* CONTADOR */
+const countdown=document.getElementById("countdown");
+const TARGET=new Date(new Date().getFullYear(),1,14,0,0,0);
+
+function update(){
+if(localStorage.getItem("roseUnlocked")){
+countdown.textContent="💘una florcita para ti💘";
+unlock();
+clearInterval(timer);
+return;
+}
+
+const now=new Date();
+const diff=TARGET-now;
+
+if(diff<=0){
+countdown.textContent="💖 Desbloqueado 💖";
+unlock();
+clearInterval(timer);
+return;
+}
+
+const d=Math.floor(diff/86400000);
+const h=Math.floor(diff/3600000)%24;
+const m=Math.floor(diff/60000)%60;
+const s=Math.floor(diff/1000)%60;
+
+countdown.textContent=
+`${d.toString().padStart(2,"0")}:${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+}
+
+const timer=setInterval(update,1000);
+update();
+</script>
+
+</body>
+</html>
