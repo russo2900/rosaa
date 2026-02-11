@@ -293,15 +293,15 @@ function unlock(){
     document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
     document.getElementById("musicBtn").classList.add("show");
 
-    typeText(`A veces la vida te cruza con alguien cuando menos lo esperás, y sin saber cómo, todo empieza a sentirse distinto. Con vos me pasó eso. Como si en medio de mis días normales hubiera aparecido una pausa linda, una calma que no sabía que necesitaba.
-
-No sé si es casualidad o algo más, pero cada vez que hablamos siento que hay una historia queriendo salir del lugar cómodo donde la tenemos. Como si esto no fuera solo coincidencia, sino una señal suave de que podríamos animarnos a un capítulo nuevo.
-
-Quizás estaría bueno regalarle un momento a eso que se sentimos`);
+    typeText(`Si vos me lo permitís, yo siempre voy a estar en estos 3 lugares:
+                        adelante tuyo para cuidarte
+               atrás tuyo para animarte siempre que lo necesites    
+                  y al lado tuyo para acompañarte en los momentos malos y los buenos
+        para darte un empujoncito siempre que lo necesites, para ser tu consejero, tu compañero y todo lo que necesites incluso cuando el mundo se te venga abajo
+                    de esta manera te pregunto, ¿me dejarías acompañarte y poder llevar con orgullo el título de tu pareja?`);
 
     localStorage.setItem("roseUnlocked","true");
 }
-
 /* CONTADOR */
 const countdown=document.getElementById("countdown");
 const TARGET=new Date(new Date().getFullYear(),1,14,0,0,0);
