@@ -283,13 +283,6 @@ if(i>=text.length)clearInterval(t);
 
 /* DESBLOQUEO */
 function unlock(){
-document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
-document.getElementById("musicBtn").classList.add("show");
-typeText("Te amo mucho ❤️");
-localStorage.setItem("roseUnlocked","true");
-}
-
-function unlock(){
     document.querySelectorAll(".rose").forEach(r=>r.classList.add("unlocked"));
     document.getElementById("musicBtn").classList.add("show");
 
@@ -332,6 +325,9 @@ const s=Math.floor(diff/1000)%60;
 countdown.textContent=
 `${d.toString().padStart(2,"0")}:${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
 }
+
+// Desbloquear el botón de música inmediatamente
+document.getElementById("musicBtn").classList.add("show");
 
 const timer=setInterval(update,1000);
 update();
