@@ -3,13 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>Ramo Cósmico 💖</title>
-<meta name="description" content="Haz clic y descubre una sorpresa mágica bajo la luna 🌙✨">
-
-<!-- Open Graph (WhatsApp, Facebook, Discord, etc.) -->
-<meta property="og:title" content="Ramo Cósmico 💖">
-<meta property="og:description" content="Haz clic y descubre una sorpresa mágica bajo la luna 🌙✨">
 
 <style>
 *{box-sizing:border-box}
@@ -80,7 +74,9 @@ canvas{
     margin-bottom:20px;
     text-shadow:0 0 25px crimson;
     z-index:5;
-}/* ===== RAMO ===== */
+}
+
+/* ===== RAMO ===== */
 .bouquet{
     position:relative;
     width:600px;
@@ -305,41 +301,141 @@ canvas{
     position: fixed;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%) scale(0);
-    width: 400px;
-    height: 300px;
-    background: linear-gradient(135deg, #ffcccc, #ff9999);
-    border-radius: 10px;
-    box-shadow: 0 0 50px rgba(255, 0, 0, 0.5);
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    transform: translate(-50%, -50%) scale(0) rotate(0deg);
+
+    width: 90%;
+    max-width: 520px;
+    max-height: 85vh; /* 👈 adaptable */
+
+    background: linear-gradient(135deg, #ffe6e6, #ffcccc, #ffb3b3);
+    border: 3px solid #ff6666;
+    border-radius: 20px;
+
+    box-shadow: 0 0 60px rgba(255, 0, 0, 0.6),
+                inset 0 0 20px rgba(255, 255, 255, 0.1);
+
     z-index: 100;
     opacity: 0;
-    transition: all 0.5s ease;
-    font-family: 'Courier New', monospace;
-    color: #330000;
+    transition: all 0.8s ease;
+
+    font-family: 'Georgia', serif;
+    color: #660000;
     text-align: center;
-    padding: 20px;
-    overflow-y: auto;
+    font-style: italic;
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.3);
+
+    padding: 40px 30px;
+
+    overflow-y: auto;   /* scroll vertical */
+    overflow-x: hidden; /* 👈 elimina scroll horizontal */
+    box-sizing: border-box;
 }
+
+/* Animación de apertura */
 #letter.open {
-    transform: translate(-50%, -50%) scale(1);
+    transform: translate(-50%, -50%) scale(1) rotate(2deg);
     opacity: 1;
+    box-shadow: 0 0 80px rgba(255, 0, 0, 0.8),
+                inset 0 0 30px rgba(255, 255, 255, 0.2);
 }
+
+/* Texto */
+#letter p {
+    line-height: 1.8;
+    margin: 0;
+    white-space: normal; /* 👈 mejor que pre-line */
+}
+
+/* Botón cerrar */
 #letter .close-btn {
     position: absolute;
-    top: 10px;
-    right: 10px;
+    top: 12px;
+    right: 15px;
     background: #ff4d4d;
     color: white;
-    border: none;
+    border: 2px solid #cc0000;
     border-radius: 50%;
-    width: 30px;
-    height: 30px;
+    width: 35px;
+    height: 35px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+    transition: all 0.3s ease;
+}
+
+#letter .close-btn:hover {
+    background: #cc0000;
+    transform: scale(1.1);
+}
+
+/* Sello de cera decorativo */
+#letter::before {
+    content: '💖';
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    font-size: 30px;
+    background: radial-gradient(circle, #ff4d4d, #cc0000);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+    z-index: 1;
+}
+
+/* Borde decorativo */
+#letter::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    border: 2px dashed rgba(255, 102, 102, 0.5);
+    border-radius: 25px;
+    pointer-events: none;
+}
+
+/* ===== BLUR CUANDO ABRE ===== */
+body.blur::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    backdrop-filter: blur(8px);
+    background: rgba(0,0,0,0.5);
+    z-index:90;
+}
+
+/* ===== TRANSICIÓN CINE ===== */
+.cinema{
+    position:fixed;
+    inset:0;
+    background:black;
+    z-index:200;
+    animation:fade 1.5s forwards;
+}
+@keyframes fade{
+    from{opacity:1}
+    to{opacity:0;visibility:hidden}
+}
+
+/* ===== PARTÍCULAS MOUSE ===== */
+.mouse-particle{
+    position:fixed;
+    width:6px;
+    height:6px;
+    background:white;
+    border-radius:50%;
+    pointer-events:none;
+    box-shadow:0 0 10px white,0 0 20px pink;
+    animation:fadeOut .8s forwards;
+}
+@keyframes fadeOut{
+    to{opacity:0;transform:scale(.5)}
 }
 
 /* ===== RESPONSIVE ===== */
@@ -402,12 +498,33 @@ canvas{
 <div id="message" class="message"></div>
 <div id="letter">
     <button class="close-btn" onclick="closeLetter()">×</button>
-    <p>Si vos me lo permitís, yo siempre voy a estar en estos 3 lugares:<br>
-    adelante tuyo para cuidarte<br>
-    atrás tuyo para animarte siempre que lo necesites<br>
-    y al lado tuyo para acompañarte en los momentos malos y los buenos<br>
-    para darte un empujoncito siempre que lo necesites, para ser tu consejero, tu compañero y todo lo que necesites incluso cuando el mundo se te venga abajo<br>
-    de esta manera te pregunto, ¿me dejarías acompañarte y poder llevar con orgullo el título de tu pareja?</p>
+    <p>Si vos me lo permitís,
+quiero habitar tres lugares en tu vida.<br>
+
+Quiero ir delante de vos,
+no para marcar el camino,
+sino para cuidarte de todo aquello que intente lastimarte.<br>
+
+Quiero ir detrás,
+para sostenerte cuando no tengas fuerzas,
+para recordarte lo valiente que sos cuando dudes de vos misma.<br>
+
+Y, sobre todo, quiero caminar a tu lado,
+en los días de sol y en las noches más oscuras,
+siendo abrigo cuando haga frío
+y calma cuando el mundo pese demasiado.<br>
+
+Quiero ser ese empujoncito suave que te impulse a seguir,
+tu consejo en medio del ruido,
+tu compañero en cada batalla,
+tu refugio cuando todo parezca derrumbarse.<br>
+
+Y desde lo más sincero de mi corazón,
+te pregunto…<br>
+
+¿me permitirías acompañarte,
+y llevar con orgullo el privilegio de llamarme tu pareja? 🌙✨<br>
+</p>
 </div>
 <button id="musicBtn" class="music-btn" onclick="toggleMusic()">▶ Reproducir música</button>
 <input id="volume" type="range" min="0" max="1" step="0.1" value="0.5" onchange="setVolume()" style="position:fixed; bottom:40px; left:50%; transform:translateX(-50%); z-index:20; display:none;">
@@ -436,6 +553,7 @@ function resize(){
         });
     }
 }
+
 window.onresize = resize;
 resize();
 
@@ -614,4 +732,3 @@ update();
 
 </body>
 </html>
-
