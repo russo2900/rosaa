@@ -74,9 +74,7 @@ canvas{
     margin-bottom:20px;
     text-shadow:0 0 25px crimson;
     z-index:5;
-}
-
-/* ===== RAMO ===== */
+}/* ===== RAMO ===== */
 .bouquet{
     position:relative;
     width:600px;
@@ -98,8 +96,10 @@ canvas{
     animation:float 6s ease-in-out infinite;
     opacity:0;
     transition:opacity 3s ease;
-    cursor:pointer; /* Para indicar que es clickeable */
-    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5)); /* Brillo mágico */
+    cursor:pointer;
+    filter: drop-shadow(0 0 10px rgba(255, 0, 0, 0.5));
+    
+    pointer-events: none; /* 🔒 BLOQUEA clicks antes del desbloqueo */
 }
 
 @keyframes float{
@@ -109,6 +109,7 @@ canvas{
 
 .rose.unlocked{
     opacity:1;
+    pointer-events: auto; /* 🔓 Activa clicks solo cuando está desbloqueada */
 }
 
 /* ===== PÉTALOS ===== */
@@ -124,7 +125,7 @@ canvas{
     background:radial-gradient(circle at 40% 30%, #ff6b6b, #800000);
     box-shadow:0 0 25px rgba(255,0,0,0.6);
     transition:transform 2.5s ease;
-      z-index:2;
+    z-index:2;
 }
 
 /* CAPA EXTERNA */
@@ -168,8 +169,8 @@ canvas{
 /* TALLO */
 .stem{
     position:absolute;
-    width:14px; /* grosor */
-    height:180px; /* largo */
+    width:14px;
+    height:180px;
     background:linear-gradient(#2c8b57,#004d00);
     bottom:-100px;
     left:50%;
@@ -470,7 +471,7 @@ function createFallingPetals() {
         petal.style.animationDuration = (Math.random() * 5 + 5) + 's'; // Entre 5-10s
         container.appendChild(petal);
         setTimeout(() => petal.remove(), 10000); // Remover después de 10s
-    }, 500); // Nuevo pétalo cada 0.5s
+    }, 500); // Nuevo pétalo cada 0.3s
 }
 createFallingPetals();
 
