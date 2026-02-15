@@ -627,7 +627,7 @@ function generateHearts() {
     const centerX = rect.left + rect.width / 2;
     const centerY = rect.top + rect.height / 2;
 
-    for (let i = 0; i < 20; i++) { // Genera 20 corazones
+    for (let i = 0; i < 40; i++) { // Genera 20 corazones
         const heart = document.createElement('div');
         heart.textContent = '💖';
         heart.style.position = 'absolute';
@@ -684,7 +684,7 @@ function unlock(){
     document.getElementById("musicBtn").classList.add("show");
     document.getElementById("volume").style.display = "block"; // Mostrar control de volumen
 
-    typeText(`Toca una rosa para leer la carta.`);
+    typeText(`Toca una 🌹`);
 
     generateHearts(); // Generar explosión de corazones al desbloquear
     song.play().catch(() => {}); // Intentar auto-play
@@ -732,5 +732,6 @@ update();
 
 </body>
 </html>
+
 
 
